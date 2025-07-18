@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Heart, Share2, MessageCircle, Clock, DollarSign, User, MapPin, Star, Bookmark, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -79,27 +80,27 @@ export const JobCard = ({ job, onSave, onShare, onApply }: JobCardProps) => {
   };
 
   return (
-    <Card className="job-card p-6 hover:border-primary-glow/50 transition-all duration-300 bg-card/50 backdrop-blur-sm">
+    <Card className="job-card p-6 hover:border-primary-glow/50 transition-all duration-300 bg-card/50 backdrop-blur-sm max-w-full overflow-hidden">
       {/* Header with badges */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex flex-wrap gap-2">
+      <div className="flex items-start justify-between mb-4 gap-4">
+        <div className="flex flex-wrap gap-2 min-w-0 flex-1">
           {job.isTrending && (
-            <Badge className="bg-trending text-trending-foreground trending-pulse">
+            <Badge className="bg-trending text-trending-foreground trending-pulse shrink-0">
               🔥 Trending
             </Badge>
           )}
           {job.isFeatured && (
-            <Badge className="bg-featured text-featured-foreground">
+            <Badge className="bg-featured text-featured-foreground shrink-0">
               ⭐ Featured
             </Badge>
           )}
           {job.urgency && (
-            <Badge className={getUrgencyColor(job.urgency)}>
+            <Badge className={`${getUrgencyColor(job.urgency)} shrink-0`}>
               {job.urgency === 'high' ? '🚨 Urgent' : job.urgency === 'medium' ? '⚡ Medium' : '🕐 Low'}
             </Badge>
           )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <Button
             variant="ghost"
             size="sm"
@@ -115,19 +116,19 @@ export const JobCard = ({ job, onSave, onShare, onApply }: JobCardProps) => {
       </div>
 
       {/* Job Title */}
-      <h3 className="text-lg font-semibold text-foreground mb-2 hover:text-primary transition-fast cursor-pointer">
+      <h3 className="text-lg font-semibold text-foreground mb-2 hover:text-primary transition-fast cursor-pointer line-clamp-2">
         {job.title}
       </h3>
 
       {/* Budget and Type */}
-      <div className="flex items-center gap-4 mb-3">
+      <div className="flex items-center gap-4 mb-3 flex-wrap">
         <div className="flex items-center gap-1 text-success">
-          <DollarSign className="w-4 h-4" />
+          <DollarSign className="w-4 h-4 shrink-0" />
           <span className="font-semibold">{formatBudget(job.budget)}</span>
           <span className="text-muted-foreground text-sm">({job.budget.type})</span>
         </div>
         <div className="flex items-center gap-1 text-muted-foreground text-sm">
-          <Clock className="w-4 h-4" />
+          <Clock className="w-4 h-4 shrink-0" />
           <span>{timeAgo(job.postedAt)}</span>
         </div>
       </div>
@@ -141,7 +142,7 @@ export const JobCard = ({ job, onSave, onShare, onApply }: JobCardProps) => {
         {job.description.length > 150 && (
           <button
             onClick={() => setShowFullDescription(!showFullDescription)}
-            className="text-primary hover:underline ml-2"
+            className="text-primary hover:underline ml-2 shrink-0"
           >
             {showFullDescription ? 'Show less' : 'Show more'}
           </button>
@@ -163,30 +164,30 @@ export const JobCard = ({ job, onSave, onShare, onApply }: JobCardProps) => {
       </div>
 
       {/* Client Info */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between mb-4 gap-4">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
           <img
             src={job.client.avatar}
             alt={job.client.name}
-            className="w-10 h-10 rounded-full object-cover"
+            className="w-10 h-10 rounded-full object-cover shrink-0"
           />
-          <div>
-            <div className="flex items-center gap-2">
-              <h4 className="font-medium text-foreground">{job.client.name}</h4>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h4 className="font-medium text-foreground truncate">{job.client.name}</h4>
               {job.client.verified && (
-                <Badge variant="secondary" className="text-xs bg-success/10 text-success">
+                <Badge variant="secondary" className="text-xs bg-success/10 text-success shrink-0">
                   ✓ Verified
                 </Badge>
               )}
             </div>
-            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <div className="flex items-center gap-3 text-sm text-muted-foreground flex-wrap">
               <div className="flex items-center gap-1">
-                <Star className="w-3 h-3 fill-current text-warning" />
+                <Star className="w-3 h-3 fill-current text-warning shrink-0" />
                 <span>{job.client.rating}</span>
               </div>
               <div className="flex items-center gap-1">
-                <MapPin className="w-3 h-3" />
-                <span>{job.client.location}</span>
+                <MapPin className="w-3 h-3 shrink-0" />
+                <span className="truncate">{job.client.location}</span>
               </div>
             </div>
           </div>
@@ -194,30 +195,30 @@ export const JobCard = ({ job, onSave, onShare, onApply }: JobCardProps) => {
       </div>
 
       {/* Stats and Actions */}
-      <div className="flex items-center justify-between pt-4 border-t border-border">
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between pt-4 border-t border-border gap-4">
+        <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap min-w-0">
+          <div className="flex items-center gap-1 shrink-0">
             <User className="w-4 h-4" />
             <span>{job.proposals} proposals</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             <Eye className="w-4 h-4" />
             <span>{job.views} views</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             <Bookmark className="w-4 h-4" />
             <span>{job.saves} saves</span>
           </div>
         </div>
 
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
+        <div className="flex gap-2 shrink-0">
+          <Button variant="outline" size="sm" className="whitespace-nowrap">
             Learn More
           </Button>
           <Button 
             size="sm" 
             onClick={handleApply}
-            className="bg-gradient-primary hover:opacity-90"
+            className="bg-gradient-primary hover:opacity-90 whitespace-nowrap"
           >
             Apply Now
           </Button>

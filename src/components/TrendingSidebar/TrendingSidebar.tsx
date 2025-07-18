@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { X, TrendingUp, Clock, DollarSign, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -113,9 +114,11 @@ export const TrendingSidebar = ({ isOpen, onClose }: TrendingSidebarProps) => {
 
           {/* Footer */}
           <div className="text-center pt-4">
-            <Button variant="outline" className="w-full">
-              View All Trending Jobs
-            </Button>
+            <Link to="/trending-jobs">
+              <Button variant="outline" className="w-full" onClick={onClose}>
+                View All Trending Jobs
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
