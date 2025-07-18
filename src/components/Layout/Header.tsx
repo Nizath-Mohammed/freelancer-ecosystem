@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Bell, User, Menu, X, ChevronDown } from 'lucide-react';
+import { Search, Bell, User, Menu, X, ChevronDown, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,9 +14,10 @@ interface HeaderProps {
     role: 'freelancer' | 'client' | 'agency';
     notifications: number;
   };
+  onTrendingClick?: () => void;
 }
 
-export const Header = ({ variant = 'app', user: propUser }: HeaderProps) => {
+export const Header = ({ variant = 'app', user: propUser, onTrendingClick }: HeaderProps) => {
   const { user: authUser, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -56,8 +58,7 @@ export const Header = ({ variant = 'app', user: propUser }: HeaderProps) => {
   ];
 
   const appNavItems = [
-    { label: 'Dashboard', href: '/dashboard' },
-    { label: 'Jobs', href: '/' },
+    { label: 'Jobs', href: '/home' },
     { label: 'Q&A', href: '/qa' },
     { label: 'Projects', href: '/freelancer-dashboard' },
     { label: 'Profile', href: '/profile' }
@@ -99,6 +100,17 @@ export const Header = ({ variant = 'app', user: propUser }: HeaderProps) => {
               ))
             ) : (
               <>
+                {/* Trending Button */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onTrendingClick}
+                  className="text-trending hover:text-trending-foreground hover:bg-trending/10"
+                >
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  Trending
+                </Button>
+
                 {/* Search Bar */}
                 <div className="relative flex-1 max-w-md">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -187,6 +199,13 @@ export const Header = ({ variant = 'app', user: propUser }: HeaderProps) => {
                         Profile
                       </Link>
                       <Link 
+                        to="/dashboard" 
+                        className="block px-4 py-2 text-sm hover:bg-secondary"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <Link 
                         to="/settings" 
                         className="block px-4 py-2 text-sm hover:bg-secondary"
                         onClick={() => setIsUserMenuOpen(false)}
@@ -267,20 +286,36 @@ export const Header = ({ variant = 'app', user: propUser }: HeaderProps) => {
                   </div>
                 </>
               ) : (
-                appNavItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    className={`font-medium py-2 transition-fast ${
-                      location.pathname === item.href
-                        ? 'text-primary'
-                        : 'text-muted-foreground hover:text-foreground'
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                <>
+                  {/* Mobile Trending Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      onTrendingClick?.();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="text-trending hover:text-trending-foreground hover:bg-trending/10 justify-start"
                   >
-                    {item.label}
-                  </Link>
-                ))
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Trending
+                  </Button>
+                  
+                  {appNavItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      className={`font-medium py-2 transition-fast ${
+                        location.pathname === item.href
+                          ? 'text-primary'
+                          : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </>
               )}
             </nav>
           </div>

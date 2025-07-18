@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, Github, Loader2 } from 'lucide-react';
@@ -56,7 +57,7 @@ export const Login = () => {
         title: 'Welcome back!',
         description: 'Successfully signed in to your account.',
       });
-      navigate('/dashboard');
+      navigate('/home'); // Redirect to home instead of dashboard
     } else {
       toast({
         title: 'Sign in failed',
