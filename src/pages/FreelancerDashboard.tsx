@@ -1,5 +1,7 @@
+
 import { useState, useEffect } from 'react';
-import { Search, Filter, SortDesc, TrendingUp, Clock, MapPin, DollarSign, Star, Users, Eye, Bookmark, Grid, List } from 'lucide-react';
+import { Search, Filter, SortDesc, TrendingUp, Clock, MapPin, DollarSign, Star, Users, Eye, Bookmark, Grid, List, Home } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Header } from '@/components/Layout/Header';
 import { JobCard } from '@/components/JobFeed/JobCard';
 import { Button } from '@/components/ui/button';
@@ -177,12 +179,36 @@ export const FreelancerDashboard = () => {
         <div className="container mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">
-              Freelancer Projects Dashboard
-            </h1>
-            <p className="text-muted-foreground">
-              Discover and bid on projects that match your expertise
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold text-foreground mb-2">
+                  Freelancer Projects Dashboard
+                </h1>
+                <p className="text-muted-foreground">
+                  Discover and bid on projects that match your expertise
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Link to="/home">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  >
+                    <Home className="w-4 h-4 mr-2" />
+                    Home
+                  </Button>
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-trending hover:text-trending-foreground hover:bg-trending/10"
+                >
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  Trending
+                </Button>
+              </div>
+            </div>
           </div>
 
           {/* Project Metrics */}
