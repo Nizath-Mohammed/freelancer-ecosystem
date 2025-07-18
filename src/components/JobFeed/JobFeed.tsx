@@ -8,12 +8,21 @@ import { mockJobs } from '@/data/mockJobs';
 interface JobFeedProps {
   variant?: 'preview' | 'full';
   limit?: number;
+  jobs?: any[]; // Accept filtered jobs as prop
 }
 
-export const JobFeed = ({ variant = 'full', limit }: JobFeedProps) => {
-  const [jobs, setJobs] = useState(mockJobs);
+export const JobFeed = ({ variant = 'full', limit, jobs: propJobs }: JobFeedProps) => {
+  const [jobs, setJobs] = useState(propJobs || mockJobs);
   const [activeTab, setActiveTab] = useState<'latest' | 'trending'>('latest');
-  const [filteredJobs, setFilteredJobs] = useState(mockJobs);
+  const [filteredJobs, setFilteredJobs] = useState(propJobs || mockJobs);
+
+  // Update jobs when prop changes
+  useEffect(() => {
+    if (propJobs) {
+      setJobs(propJobs);
+      setFilteredJobs(propJobs);
+    }
+  }, [propJobs]);
 
   useEffect(() => {
     let sorted = [...jobs];
